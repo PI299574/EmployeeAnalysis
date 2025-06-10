@@ -25,17 +25,17 @@ public class EmployeeAnalysisApplication {
             try {
                 // Read and parse the file
                 List<Employee> employees = employeeService.readEmployeesFromFile();
-                
+
                 // Build manager-subordinate relationships
-                Map<String, List<Employee>> managerSubordinateMap = 
-                    employeeService.buildManagerSubordinateMap(employees);
-                
+                Map<String, List<Employee>> managerSubordinateMap =
+                        employeeService.buildManagerSubordinateMap(employees);
+
                 // Analyze the data
                 AnalysisResult result = analyzer.analyzeEmployees(employees, managerSubordinateMap);
-                
+
                 // Print results
                 printResults(result);
-                
+
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
                 e.printStackTrace();
@@ -45,21 +45,21 @@ public class EmployeeAnalysisApplication {
 
     private void printResults(AnalysisResult result) {
         System.out.println("=== Analysis Results ===");
-        
+
         System.out.println("\nUnderpaid Managers:");
         if (result.getUnderpaidManagers().isEmpty()) {
             System.out.println("No underpaid managers found");
         } else {
             result.getUnderpaidManagers().forEach(System.out::println);
         }
-        
+
         System.out.println("\nOverpaid Managers:");
         if (result.getOverpaidManagers().isEmpty()) {
             System.out.println("No overpaid managers found");
         } else {
             result.getOverpaidManagers().forEach(System.out::println);
         }
-        
+
         System.out.println("\nEmployees with Long Reporting Lines:");
         if (result.getLongReportingLineEmployees().isEmpty()) {
             System.out.println("No employees with long reporting lines found");

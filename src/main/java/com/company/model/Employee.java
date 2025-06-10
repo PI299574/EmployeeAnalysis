@@ -6,9 +6,9 @@ public class Employee {
     private String lastName;
     private String salary;  // Changed from int to String
     private String managerId;
-    
-    public Employee(String id, String firstName, String lastName, 
-                   String salary, String managerId) {
+
+    public Employee(String id, String firstName, String lastName,
+                    String salary, String managerId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,11 +17,25 @@ public class Employee {
     }
 
     // Getters and setters
-    public String getId() { return id; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public String getSalary() { return salary; }
-    public String getManagerId() { return managerId; }
+    public String getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public String getManagerId() {
+        return managerId;
+    }
 
     // Add method to get salary as integer when needed
     public int getSalaryAsInt() {
@@ -30,5 +44,16 @@ public class Employee {
         } catch (NumberFormatException e) {
             return 0; // or handle error as needed
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", salary='" + salary + '\'' +
+                ", managerId='" + managerId + '\'' +
+                '}';
     }
 }

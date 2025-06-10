@@ -21,55 +21,55 @@ public class EmployeeService {
     private Resource employeeFileResource;
 
 
-        public List<Employee> readEmployeesFromFile() throws IOException {
-            List<Employee> employees = new ArrayList<>();
-            
-            try (InputStream is = employeeFileResource.getInputStream();
-                 BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-                
-                String line;
-                boolean firstLine = true;
-                
-                while ((line = br.readLine()) != null) {
-                    if (firstLine) {
-                        firstLine = false;
-                        continue; // Skip header
-                    }
-                    
-                    String[] values = line.split(",");
-                    String managerId = values.length > 4 ? values[4].trim() : null;
-                    
-                    employees.add(new Employee(
+    public List<Employee> readEmployeesFromFile() throws IOException {
+        List<Employee> employees = new ArrayList<>();
+
+        try (InputStream is = employeeFileResource.getInputStream();
+             BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+
+            String line;
+            boolean firstLine = true;
+
+            while ((line = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false;
+                    continue; // Skip header
+                }
+
+                String[] values = line.split(",");
+                String managerId = values.length > 4 ? values[4].trim() : null;
+
+                employees.add(new Employee(
                         values[0].trim(),
                         values[1].trim(),
                         values[2].trim(),
                         values[3].trim(),  // Salary as string
                         managerId
-                    ));
-                }
+                ));
             }
-            
-            return employees;
         }
 
-        public Map<String, List<Employee>> buildManagerSubordinateMap(List<Employee> employees) {
-            Map<String, List<Employee>> managerSubordinateMap = new HashMap<>();
-            
-            for (Employee employee : employees) {
-                if (employee.getManagerId() != null && !employee.getManagerId().isEmpty()) {
-                    managerSubordinateMap
+        return employees;
+    }
+
+    public Map<String, List<Employee>> buildManagerSubordinateMap(List<Employee> employees) {
+        Map<String, List<Employee>> managerSubordinateMap = new HashMap<>();
+
+        for (Employee employee : employees) {
+            if (employee.getManagerId() != null && !employee.getManagerId().isEmpty()) {
+                managerSubordinateMap
                         .computeIfAbsent(employee.getManagerId(), k -> new ArrayList<>())
                         .add(employee);
-                }
             }
-            
-            return managerSubordinateMap;
         }
-    
+
+        return managerSubordinateMap;
+    }
+
     public Employee findCeo(List<Employee> employees) {
         return employees.stream()
-            .filter(e -> e.getManagerId() == null)
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("CEO not found"));
+                .filter(e -> e.getManagerId() == null)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("CEO not found"));
     }
 }
